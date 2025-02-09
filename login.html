@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="assets/css/loginsignup.css" />
+    <style>
+      /* Loading animation styles */
+      .loading-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 9999;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      .loading-spinner {
+        width: 50px;
+        height: 50px;
+        border: 5px solid #f3f3f3;
+        border-top: 5px solid #03e9f4;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      .loading-text {
+        color: #03e9f4;
+        margin-top: 20px;
+        font-size: 18px;
+        letter-spacing: 2px;
+        animation: pulse 1.5s infinite;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      @keyframes pulse {
+        0% { opacity: 0.6; }
+        50% { opacity: 1; }
+        100% { opacity: 0.6; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-box">
+      <h2>Sign Up</h2>
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="user-box">
+          <input type="text" name="fullname" id="fullname" required=""/>
+          <label>Full Name</label>
+        </div>
+        <div class="user-box">
+          <input type="tel" name="phone" id="phone" required=""/>
+          <label>Phone Number</label>
+        </div>
+        <div class="user-box">
+          <input type="text" name="username" id="username" required=""/>
+          <label>Username</label>
+        </div>
+        <div class="user-box">
+          <input type="password" name="password" id="password" required=""/>
+          <label>Password</label>
+        </div>
+        <button type="submit">  
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          Sign Up
+        </button>
+      </form>
+    </div>
+
+    <!-- Add loading overlay -->
+    <div class="loading-overlay">
+      <div class="loading-spinner"></div>
+      <div class="loading-text">Logging in...</div>
+    </div>
+
+    <script>
+      function handleLogin(event) {
+        event.preventDefault();
+        
+        // Get form values
+        const fullname = document.getElementById('fullname').value;
+        const phone = document.getElementById('phone').value;
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        // Store user data
+        const userData = {
+          fullname,
+          phone,
+          username,
+          password
+        };
+        
+        // Store user data in localStorage
+        localStorage.setItem('userData', JSON.stringify(userData));
+        localStorage.setItem('isLoggedIn', 'true');
+        
+        // Show loading animation
+        const loadingOverlay = document.querySelector('.loading-overlay');
+        loadingOverlay.style.display = 'flex';
+        
+        // Add success animation to form
+        const loginBox = document.querySelector('.login-box');
+        loginBox.style.animation = 'success 0.5s ease-out';
+        
+        // Redirect after delay
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 2000); // 2 second delay
+      }
+
+      // Optional: Add animation when form appears
+      document.addEventListener('DOMContentLoaded', () => {
+        const loginBox = document.querySelector('.login-box');
+        loginBox.style.opacity = '0';
+        loginBox.style.transform = 'translateY(20px)';
+        
+        setTimeout(() => {
+          loginBox.style.transition = 'all 0.5s ease-out';
+          loginBox.style.opacity = '1';
+          loginBox.style.transform = 'translateY(0)';
+        }, 100);
+      });
+    </script>
+  </body>
+</html>
